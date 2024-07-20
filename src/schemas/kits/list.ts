@@ -858,7 +858,7 @@ export const columnGroup: FrameRoot = {
     },
     styles: {
       layout: `'column'`,
-      width: `'262px'`,
+      maxWidth: `'none'`,
       background: `'var(--mk-ui-background-variant)'`,
       borderRadius: `'8px'`,
       padding: `'6px'`
