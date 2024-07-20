@@ -54,12 +54,10 @@ export const ContextListView = (props: {
       : null;
 
   const groupByOptions = useMemo(() => {
-    const groupByOptions =
-      instance?.state[instance?.root?.id].props?.groupOptions;
+    const groupByOptions = instance?.state[instance?.root?.id].props?.groupOptions;
     if (groupByOptions) return ensureArray(groupByOptions);
     if (!groupBy) return [""];
     const options: string[] = uniq([
-      "",
       ...(
         parseFieldValue(groupBy.value, groupBy.type, props.superstate)
           ?.options ?? []
@@ -85,13 +83,13 @@ export const ContextListView = (props: {
           return [
             c == ""
               ? {
-                  ...acc,
-                  [c]: data.map((f, i) => ({ ...f, _pageId: count + i })) ?? [],
-                }
+                ...acc,
+                [c]: data.map((f, i) => ({ ...f, _pageId: count + i })) ?? [],
+              }
               : {
-                  ...acc,
-                  [c]: [],
-                },
+                ...acc,
+                [c]: [],
+              },
             count + data.length,
           ];
         }
@@ -107,16 +105,16 @@ export const ContextListView = (props: {
         return [
           newItems.length > 0
             ? {
-                ...acc,
-                [c]: newItems.map((f, i) => ({
-                  ...f,
-                  _pageId: count + i,
-                })),
-              }
+              ...acc,
+              [c]: newItems.map((f, i) => ({
+                ...f,
+                _pageId: count + i,
+              })),
+            }
             : {
-                ...acc,
-                [c]: [],
-              },
+              ...acc,
+              [c]: [],
+            },
           count + newItems.length,
         ];
       },
@@ -141,59 +139,59 @@ export const ContextListView = (props: {
     if (!dbSchema) return {};
     return dbSchema?.primary == "true"
       ? data.reduce<{ [key: string]: FrameTreeProp }>((p, c) => {
-          return {
-            ...p,
-            [c["_index"]]: {
-              $context: {
-                _index: c["_index"],
-                _keyValue: c[primaryKey],
-                _schema: dbSchema.id,
-                _name: props.superstate.pathsIndex.get(c[primaryKey])?.name,
-                ...context,
-              },
-              $properties: cols,
-              [spaceInfo.path]: cols.reduce((a, b) => {
-                return {
-                  ...a,
-                  [b.name]: c[b.name],
-                };
-              }, {}),
-              ...Object.keys(contextTable).reduce<FrameTreeProp>((d, e) => {
-                return {
-                  ...d,
-                  [e]: contextTable[e].cols.reduce((a, b) => {
-                    return {
-                      ...a,
-                      [b.name]: c[b.name + e],
-                    };
-                  }, {}),
-                };
-              }, {}),
+        return {
+          ...p,
+          [c["_index"]]: {
+            $context: {
+              _index: c["_index"],
+              _keyValue: c[primaryKey],
+              _schema: dbSchema.id,
+              _name: props.superstate.pathsIndex.get(c[primaryKey])?.name,
+              ...context,
             },
-          };
-        }, {})
+            $properties: cols,
+            [spaceInfo.path]: cols.reduce((a, b) => {
+              return {
+                ...a,
+                [b.name]: c[b.name],
+              };
+            }, {}),
+            ...Object.keys(contextTable).reduce<FrameTreeProp>((d, e) => {
+              return {
+                ...d,
+                [e]: contextTable[e].cols.reduce((a, b) => {
+                  return {
+                    ...a,
+                    [b.name]: c[b.name + e],
+                  };
+                }, {}),
+              };
+            }, {}),
+          },
+        };
+      }, {})
       : data.reduce<{ [key: string]: FrameTreeProp }>((p, c) => {
-          return {
-            ...p,
-            [c["_index"]]: {
-              $context: {
-                _index: c["_index"],
-                _keyValue: c[primaryKey],
-                _schema: dbSchema.id,
-                _name: c[primaryKey],
-                ...context,
-              },
-
-              $properties: cols,
-              [spaceInfo.path]: cols.reduce((a, b) => {
-                return {
-                  ...a,
-                  [b.name]: c[b.name],
-                };
-              }, {}),
+        return {
+          ...p,
+          [c["_index"]]: {
+            $context: {
+              _index: c["_index"],
+              _keyValue: c[primaryKey],
+              _schema: dbSchema.id,
+              _name: c[primaryKey],
+              ...context,
             },
-          };
-        }, {});
+
+            $properties: cols,
+            [spaceInfo.path]: cols.reduce((a, b) => {
+              return {
+                ...a,
+                [b.name]: c[b.name],
+              };
+            }, {}),
+          },
+        };
+      }, {});
   }, [data, cols, contextTable]);
 
   return (
