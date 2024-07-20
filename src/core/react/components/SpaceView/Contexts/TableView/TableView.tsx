@@ -266,14 +266,14 @@ export const TableView = (props: { superstate: Superstate }) => {
       selectRows(newIndex, [newIndex]);
       setLastSelectedIndex(newIndex);
     };
-    if (e.key == "c" && e.metaKey) {
+    if (e.key == "c" && (e.ctrlKey || e.metaKey)) {
       copyCell();
     }
-    if (e.key == "x" && e.metaKey) {
+    if (e.key == "x" && (e.ctrlKey || e.metaKey)) {
       copyCell();
       clearCell();
     }
-    if (e.key == "v" && e.metaKey) {
+    if (e.key == "v" && (e.ctrlKey || e.metaKey)) {
       navigator.clipboard.readText().then((f) => setCellValue(f));
     }
     if (e.key == "Escape") {
